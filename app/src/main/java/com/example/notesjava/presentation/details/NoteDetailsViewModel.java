@@ -33,6 +33,12 @@ public class NoteDetailsViewModel extends ViewModel {
         }
     }
 
+    public void deleteNote() {
+        if (noteId != null) {
+            repository.deleteNote(noteId);
+        }
+    }
+
     public void saveNote(String title, String content) {
         if (noteId == null) {
             repository.addNote(

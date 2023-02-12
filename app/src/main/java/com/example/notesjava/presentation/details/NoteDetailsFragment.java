@@ -71,7 +71,10 @@ public class NoteDetailsFragment extends BaseFragment<FragmentNoteDetailsBinding
             ((MainActivity) requireActivity()).back();
         });
 
-        getViewBinding().deleteNoteButton.setOnClickListener(v -> ((MainActivity) requireActivity()).back());
+        getViewBinding().deleteNoteButton.setOnClickListener(v -> {
+            viewModel.deleteNote();
+            ((MainActivity) requireActivity()).back();
+        });
 
         viewModel.getNoteLiveData().observe(getViewLifecycleOwner(),
                 note -> {
