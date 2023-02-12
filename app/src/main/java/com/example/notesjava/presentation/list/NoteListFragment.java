@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.notesjava.MainActivity;
 import com.example.notesjava.databinding.FragmentNoteListBinding;
-import com.example.notesjava.domain.Note;
+import com.example.notesjava.domain.model.Note;
 import com.example.notesjava.presentation._base.BaseFragment;
 import com.example.notesjava.presentation.details.NoteDetailsFragment;
+import com.example.notesjava.presentation.list.note_list_view.NotesListAdapter;
 
 import java.util.ArrayList;
 
@@ -42,7 +43,10 @@ public class NoteListFragment extends BaseFragment<FragmentNoteListBinding> {
 
         final ArrayList<Note> notes = new ArrayList<>();
 
-        final NotesListAdapter notesListAdapter = new NotesListAdapter(notes);
+        final NotesListAdapter notesListAdapter = new NotesListAdapter(notes, noteId -> {
+            ((MainActivity) requireActivity()).navigate(NoteDetailsFragment.create(noteId));
+        });
+
         getViewBinding().list.setAdapter(notesListAdapter);
 
         viewModel.getNotesLiveData().observe(getViewLifecycleOwner(), observingNotes -> {
@@ -51,9 +55,7 @@ public class NoteListFragment extends BaseFragment<FragmentNoteListBinding> {
             notesListAdapter.notifyDataSetChanged();
         });
 
-        getViewBinding().createNoteButton.setOnClickListener(v -> {
-            ((MainActivity) requireActivity()).navigate(new NoteDetailsFragment());
-        });
+        getViewBinding().createNoteButton.setOnClickListener(v -> ((MainActivity) requireActivity()).navigate(NoteDetailsFragment.create()));
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.example.notesjava.data.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Nullable;
@@ -8,7 +10,7 @@ import javax.inject.Inject;
 
 public class NotesDatabase {
     private final ArrayList<NoteDto> notes;
-    private AtomicInteger lastId;
+    private final AtomicInteger lastId;
 
     @Inject
     public NotesDatabase() {
@@ -16,8 +18,10 @@ public class NotesDatabase {
         lastId = new AtomicInteger(0);
     }
 
-    public ArrayList<NoteDto> getNotes() {
-        return notes;
+    public List<NoteDto> getNotes() {
+        List<NoteDto> notesToReturn = (List<NoteDto>) notes.clone();
+        Collections.reverse(notesToReturn);
+        return notesToReturn;
     }
 
     @Nullable
@@ -30,9 +34,16 @@ public class NotesDatabase {
 
     public void addNote(String title, String content) {
         notes.add(new NoteDto(
-                lastId.get(),
+                lastId.getAndIncrement(),
                 title,
                 content
+        ));
+    }
+
+    public void editNote(int id, String title, String content) {
+        deleteNode(id);
+        notes.add(new NoteDto(
+                id, title, content
         ));
     }
 

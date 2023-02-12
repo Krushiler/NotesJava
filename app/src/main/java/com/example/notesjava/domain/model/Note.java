@@ -1,4 +1,4 @@
-package com.example.notesjava.domain;
+package com.example.notesjava.domain.model;
 
 public class Note {
     private final int id;

@@ -1,7 +1,8 @@
 package com.example.notesjava.di;
 
 import com.example.notesjava.data.database.NotesDatabase;
-import com.example.notesjava.data.repository.NotesRepository;
+import com.example.notesjava.data.repository.RealNotesRepository;
+import com.example.notesjava.domain.repository.NotesRepository;
 
 import javax.inject.Singleton;
 
@@ -22,6 +23,6 @@ public class DataModule {
     @Provides
     @Singleton
     NotesRepository provideNotesRepository(NotesDatabase notesDatabase) {
-        return new NotesRepository(notesDatabase);
+        return new RealNotesRepository(notesDatabase);
     }
 }
